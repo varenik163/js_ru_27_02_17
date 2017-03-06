@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react'
 
+//Это можно сделать Functional Component, по возможности используй их
 class Comment extends Component {
 
     constructor() {
