@@ -10,6 +10,7 @@ class CommentList extends Component {
         super()
         this.state = {
             isOpen: false,
+          //это совсем не нужно в state, ты можешь получить текст из прошлой переменной
             commentLinkText: "Show comments"
         }
     }
