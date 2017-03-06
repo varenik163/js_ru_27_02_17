@@ -14,6 +14,7 @@ class Article extends Component {
         const {article} = this.props
         const {isOpen} = this.state
         const {comments} = article
+        //Я б эту проверку спрятал в CommentList
         const commentList = comments ? <CommentList comments={comments}/> : ''
         const body = isOpen ? <section>{article.text}{commentList}</section> : null
         return (
