@@ -6,14 +6,14 @@ export default (CustomComponent) => class DecoratedComponent extends React.Compo
         isOpen: false
     }
 
+    render() {
+        return <CustomComponent {...this.props} {...this.state} toggleOpen={this.toggleOpen} />
+    }
+
     toggleOpen = ev => {
         ev.preventDefault()
         this.setState({
             isOpen: !this.state.isOpen
         })
-    }
-
-    render() {
-        return <CustomComponent {...this.props} {...this.state} toggleOpen={this.toggleOpen} />
     }
 }

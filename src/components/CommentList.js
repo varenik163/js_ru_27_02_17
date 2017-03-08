@@ -1,10 +1,19 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 
 class CommentList extends Component {
+
+    static propTypes = {
+        comments: PropTypes.array.isRequired,
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func
+    };
+
     static defaultProps = {
-        comments: []
+        comments: [],
+        isOpen: false,
+        toggleOpen: null
     }
 
     componentWillMount() {
