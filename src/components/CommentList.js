@@ -1,42 +1,63 @@
-/**
- * Created by varenik163 on 04.03.17.
- */
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Comment from './Comment'
+import toggleOpen from '../decorators/toggleOpen'
 
 class CommentList extends Component {
+    static defaultProps = {
+        comments: []
+    }
 
-    constructor() {
-        super()
-        this.state = {
-            isOpen: false,
-          //это совсем не нужно в state, ты можешь получить текст из прошлой переменной
-            commentLinkText: "Show comments"
-        }
+    componentWillMount() {
+        console.log('---', 'mounting comment list')
+    }
+
+    componentDidMount() {
+        console.log('---', 'comment list mounted')
+    }
+
+    componentDidUpdate() {
+        this.size = this.container.getBoundingClientRect()
     }
 
     render() {
-        const {comments} = this.props
-        const commentsComponents = comments.map(comment => <li key={comment.id}><Comment comment={comment}/></li>)
-        const {isOpen} = this.state
-        const {commentLinkText} = this.state
-        const body = isOpen ? <ul>{commentsComponents}</ul> : null
-
+        const {isOpen, toggleOpen} = this.props
+        console.log('---', this.size)
         return (
-            <div>
-                <a href="" onClick={this.handleClick}>{commentLinkText}</a>
-                {body}
+            <div ref={this.getContainerRef}>
+                <a href="#" onClick={toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+                {this.getBody()}
             </div>
         )
     }
 
-    handleClick = (ev) => {
-        ev.preventDefault();
-        this.setState({
-            isOpen: !this.state.isOpen,
-            commentLinkText: this.state.isOpen ? "Show comments" : "Hide comments"
-        })
+    getContainerRef = (ref) => {
+        this.container = ref
+        if (ref) {
+            this.size = ref.getBoundingClientRect()
+        }
+    }
+
+    getBody() {
+        const {comments, isOpen} = this.props
+        if (!isOpen) return null
+
+        if (!comments.length) {
+            return <div>
+                <h3>
+                    No comments yet
+                </h3>
+            </div>
+        }
+
+        const commentItems = comments.map(comment => <li key={comment.id}><Comment comment={comment} /></li>)
+        return (
+            <div>
+                <ul>
+                    {commentItems}
+                </ul>
+            </div>
+        )
     }
 }
 
-export default CommentList
+export default toggleOpen(CommentList)
