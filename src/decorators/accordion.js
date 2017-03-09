@@ -4,6 +4,7 @@
 //HOC === Decorator
 import React from 'react'
 
+//DecoratedComponent я называл чтоб легче понять было. Лучше выбирай более значущее название
 export default (CustomComponent) => class DecoratedComponent extends React.Component {
     state = {
         openElementId: null
