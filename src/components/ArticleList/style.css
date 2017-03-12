@@ -1,0 +1,26 @@
+.article-list-enter {
+    opacity: 0;
+}
+
+.article-list-enter.article-list-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.article-list-appear {
+    opacity: 0;
+}
+
+.article-list-appear.article-list-appear-active {
+    opacity: 1;
+    transition: opacity 1000ms ease-in;
+}
+
+.article-list-leave {
+    opacity: 1;
+}
+
+.article-list-leave.article-list-leave-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+}
