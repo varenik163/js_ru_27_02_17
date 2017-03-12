@@ -2,16 +2,51 @@ import React, { Component, PropTypes } from 'react'
 import ArticleList from './ArticleList/index'
 import Chart from './Chart'
 import Select from 'react-select'
+import { DateRangePicker } from 'react-dates'
 import 'react-select/dist/react-select.css'
+import 'react-dates/lib/css/_datepicker.css'
 
 class App extends Component {
+
+    constructor(props) {
+        super(props);
+
+        let focusedInput = null;
+        if (props.autoFocus) {
+            focusedInput = START_DATE;
+        } else if (props.autoFocusEndDate) {
+            focusedInput = END_DATE;
+        }
+
+        this.state = {
+            text: '',
+            selected: null,
+            focusedInput,
+            startDate: props.initialStartDate,
+            endDate: props.initialEndDate,
+        };
+
+        this.onDatesChange = this.onDatesChange.bind(this);
+        this.onFocusChange = this.onFocusChange.bind(this);
+    }
+
     static propTypes = {
         articles: PropTypes.array.isRequired
     };
 
-    state = {
+   /* state = {
         text: '',
-        selected: null
+        selected: null,
+        startDate: null,
+        endDate: null
+    }*/
+
+    onDatesChange({ startDate, endDate }) {
+        this.setState({ startDate, endDate })
+    }
+
+    onFocusChange(focusedInput) {
+        this.setState({ focusedInput })
     }
 
     render() {
@@ -24,6 +59,13 @@ class App extends Component {
             <div>
                 Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                 <Select options = {options} value={this.state.selected} onChange = {this.handleSelectChange} multi/>
+                <DateRangePicker
+                    onDatesChange={this.onDatesChange}
+                    onFocusChange={this.onFocusChange}
+                    focusedInput={this.state.focusedInput}
+                    startDate={this.state.startDate}
+                    endDate={this.state.endDate}
+                />
                 <ArticleList articles={this.props.articles}/>
                 <Chart articles={this.props.articles}/>
             </div>
