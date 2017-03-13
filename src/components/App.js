@@ -6,6 +6,7 @@ import { DateRangePicker } from 'react-dates'
 import 'react-select/dist/react-select.css'
 import 'react-dates/lib/css/_datepicker.css'
 
+//компонент становится слишком большим, пора разбивать на более мелкие
 class App extends Component {
 
     constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
             text: '',
             selected: null,
             focusedInput,
+            //лучше не завязывать на пропсы. Потом не понятно что делать если они поменяются
             startDate: props.initialStartDate,
             endDate: props.initialEndDate,
         };
