@@ -9,6 +9,7 @@ class SelectFilter extends Component {
     };
 
     state = {
+        //почему не вынес значения в стор?
         selected: null
     }
 
