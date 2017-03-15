@@ -6,6 +6,7 @@ export default (state = articles, action) => {
 
     switch (type) {
         case SELECT_ARTICLE:
+            //очень много проблем будет, храни просто id выбраных статей
             return state.filter(article => article.id === payload.id)
 
     }
