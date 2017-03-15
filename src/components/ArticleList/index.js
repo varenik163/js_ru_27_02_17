@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react'
+import {connect} from 'react-redux'
 import Article from '../Article/index'
 import CSSTransition from 'react-addons-css-transition-group'
 import accrdion from '../../decorators/accordion'
@@ -19,7 +20,7 @@ class ArticleList extends Component {
             <CSSTransition component="ul"
                            transitionName="article-list"
                            transitionAppear={true}
-                           transitionAppearTimeout={10000}
+                           transitionAppearTimeout={100}
                            transitionEnterTimeout={500}
                            transitionLeaveTimeout={300}
             >
@@ -29,7 +30,14 @@ class ArticleList extends Component {
     }
 }
 
-export default accrdion(ArticleList)
+const mapStateToProps = state => {
+    console.log('---', 'connect, state = ', state)
+    return {
+        articles: state.articles
+    }
+}
+
+export default connect(mapStateToProps)(accrdion(ArticleList))
 
 ArticleList.propTypes = {
     articles: PropTypes.array.isRequired,

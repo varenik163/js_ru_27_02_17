@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import CommentList from '../CommentList'
 import CSSTransition from 'react-addons-css-transition-group'
+import {connect} from 'react-redux'
+import {deleteArticle} from '../../AC'
 import './style.css'
 
 class Article extends Component {
@@ -22,6 +24,7 @@ class Article extends Component {
         return (
             <div>
                 <h3 onClick={toggleOpen}>{article.title}</h3>
+                <a href="#" onClick={this.handleDelete}>delete me</a>
                 <CSSTransition
                     transitionName="article"
                     transitionEnterTimeout={500}
@@ -31,6 +34,12 @@ class Article extends Component {
                 </CSSTransition>
             </div>
         )
+    }
+
+    handleDelete = ev => {
+        ev.preventDefault()
+        const {article, deleteArticle} = this.props
+        deleteArticle(article.id)
     }
 
     getCommentList = ref => {
@@ -53,4 +62,4 @@ Article.propTypes = {
     toggleOpen: PropTypes.func
 }
 
-export default Article
+export default connect(null, { deleteArticle })(Article)
