@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import DayPicker, { DateUtils } from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
+import {dateRange} from '../../AC/index'
 
 class DateRange extends Component {
     state = {
@@ -29,4 +30,9 @@ class DateRange extends Component {
 
 }
 
-export default DateRange
+export default connect(state => ({
+    from: state.from,
+    to: state.to
+}), {
+    dispatchIncrement: dateRange
+})(DateRange)
