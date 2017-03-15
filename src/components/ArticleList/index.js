@@ -33,6 +33,7 @@ class ArticleList extends Component {
 const mapStateToProps = state => {
     console.log('---', 'connect, state = ', state)
     return {
+        //а где сама фильтрация?
         articles: state.articles
     }
 }
