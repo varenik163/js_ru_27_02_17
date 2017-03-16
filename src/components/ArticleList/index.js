@@ -32,8 +32,35 @@ class ArticleList extends Component {
 
 const mapStateToProps = state => {
     console.log('---', 'connect, state = ', state)
+    const selected = state.selected.selected ? state.selected.selected : false
+    const dateRange = state.dateRange
+    let checkedArticles = state.articles
+    if(selected){
+        let selectedValues = selected.map(article => article.value)
+        checkedArticles = checkedArticles.filter((article) => {
+            if (selectedValues.length > 0 && selectedValues.indexOf(article.id) == -1) return false
+            return true
+        })
+    }
+
+    checkedArticles = checkedArticles.filter((article) => {
+        if (dateRange.from && dateRange.to) {
+            let from = dateRange.from.getTime()
+            let to = dateRange.to.getTime()
+            let postDate = Date.parse(article.date)
+
+            if (postDate < from || postDate > to){
+                console.log(' вне рамок',postDate, from, to)
+                return false
+            }
+        }
+        return true
+    })
+
+
+
     return {
-        articles: state.articles
+        articles: checkedArticles
     }
 }
 

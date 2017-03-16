@@ -1,6 +1,6 @@
 import {DATE_RANGE} from '../constants'
 
-export default (action) => {
+export default (state = {from: null, to: null}, action) => {
     const { type, payload } = action
 
     switch (type) {

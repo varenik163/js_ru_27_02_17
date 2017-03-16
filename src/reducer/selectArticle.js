@@ -6,7 +6,7 @@ export default (state = articles, action) => {
 
     switch (type) {
         case SELECT_ARTICLE:
-            return state.filter(article => article.id === payload.id)
+            return payload
 
     }
 

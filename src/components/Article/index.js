@@ -4,6 +4,7 @@ import CommentList from '../CommentList'
 import CSSTransition from 'react-addons-css-transition-group'
 import {connect} from 'react-redux'
 import {deleteArticle} from '../../AC'
+import {selectArticle} from '../../AC/index'
 import './style.css'
 
 class Article extends Component {
@@ -38,8 +39,8 @@ class Article extends Component {
 
     handleDelete = ev => {
         ev.preventDefault()
-        const {article, deleteArticle} = this.props
-        deleteArticle(article.id)
+        const {article, dispatchDeleteArticle, dispatchSelectArticle} = this.props
+        dispatchDeleteArticle(article.id)
     }
 
     getCommentList = ref => {
@@ -62,4 +63,7 @@ Article.propTypes = {
     toggleOpen: PropTypes.func
 }
 
-export default connect(null, { deleteArticle })(Article)
+export default connect(null, {
+    dispatchDeleteArticle: deleteArticle,
+    dispatchSelectArticle: selectArticle
+})(Article)

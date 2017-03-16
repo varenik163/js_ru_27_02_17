@@ -1,9 +1,9 @@
 import {createStore} from 'redux'
 import reducer from '../reducer/index'
 
-const store = createStore(reducer)
+//const store = createStore(reducer)
 
 //dev only
-window.store = store
+window.store = createStore(reducer)
 
 export default store
