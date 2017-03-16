@@ -48,7 +48,7 @@ class CommentList extends Component {
             </div>
         }
 
-        const commentItems = comments.map(comment => <li key={comment.id}><Comment comment={comment} /></li>)
+        const commentItems = comments.map(id => <li key={id}><Comment id={id} /></li>)
         return (
             <div>
                 <ul>
