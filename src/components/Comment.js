@@ -1,5 +1,6 @@
 import React, {PropTypes}  from 'react'
 import {connect} from 'react-redux'
+import {createFindCommentSelector} from '../selectors'
 
 function Comment(props) {
     const { text, user } = props.comment
@@ -17,10 +18,12 @@ Comment.propTypes = {
     })
 }
 
-const mapStateToProps = (state, props) => {
-    const { id } = props
-    return {
-        comment: state.comments.find(comment => comment.id === id)
+const mapStateToProps = () => {
+    const findCommentSelector = createFindCommentSelector()
+    return (state, props) => {
+        return {
+            comment: findCommentSelector(state, props)
+        }
     }
 }
 
