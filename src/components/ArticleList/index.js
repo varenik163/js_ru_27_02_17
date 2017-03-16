@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 import Article from '../Article/index'
 import CSSTransition from 'react-addons-css-transition-group'
 import accrdion from '../../decorators/accordion'
+import {filteredArticlesSelector} from '../../selectors/index'
 import './style.css'
 
 class ArticleList extends Component {
     render() {
+        console.log('---', 'rerendering article list')
         const {articles, toggleOpenItem, isItemOpened} = this.props
 
         const articleComponents = articles.map(article => <li key={article.id}>
@@ -30,16 +32,9 @@ class ArticleList extends Component {
     }
 }
 
-const mapStateToProps = ({ articles, filters }) => {
-    const { selected, dateRange: { from, to } } = filters
-
-    const filterdArticles = articles.filter(article => {
-        const published = Date.parse(article.date)
-        return (!selected.length || selected.includes(article.id)) &&
-            (!from || !to || (published > from && published < to))
-    })
+const mapStateToProps = (state) => {
     return {
-        articles: filterdArticles
+        articles: filteredArticlesSelector(state)
     }
 }
 
