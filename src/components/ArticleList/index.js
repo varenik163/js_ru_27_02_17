@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 import Article from '../Article/index'
 import CSSTransition from 'react-addons-css-transition-group'
 import accrdion from '../../decorators/accordion'
+import {filteredArticlesSelector} from '../../selectors/index'
 import './style.css'
 
 class ArticleList extends Component {
     render() {
+        console.log('---', 'rerendering article list')
         const {articles, toggleOpenItem, isItemOpened} = this.props
 
         const articleComponents = articles.map(article => <li key={article.id}>
@@ -30,37 +32,9 @@ class ArticleList extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    console.log('---', 'connect, state = ', state)
-    const selected = state.selected.selected ? state.selected.selected : false
-    const dateRange = state.dateRange
-    let checkedArticles = state.articles
-    if(selected){
-        let selectedValues = selected.map(article => article.value)
-        checkedArticles = checkedArticles.filter((article) => {
-            if (selectedValues.length > 0 && selectedValues.indexOf(article.id) == -1) return false
-            return true
-        })
-    }
-
-    checkedArticles = checkedArticles.filter((article) => {
-        if (dateRange.from && dateRange.to) {
-            let from = dateRange.from.getTime()
-            let to = dateRange.to.getTime()
-            let postDate = Date.parse(article.date)
-
-            if (postDate < from || postDate > to){
-                console.log(' вне рамок',postDate, from, to)
-                return false
-            }
-        }
-        return true
-    })
-
-
-
+const mapStateToProps = (state) => {
     return {
-        articles: checkedArticles
+        articles: filteredArticlesSelector(state)
     }
 }
 
