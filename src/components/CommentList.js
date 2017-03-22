@@ -18,7 +18,7 @@ class CommentList extends Component {
     }
 
     render() {
-        const {isOpen, toggleOpen} = this.props
+        const {isOpen, toggleOpen, article_id} = this.props
 //        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
@@ -36,7 +36,7 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {comments, isOpen} = this.props
+        const {comments, isOpen, article_id} = this.props
         if (!isOpen) return null
 
         if (!comments.length) {
@@ -54,7 +54,7 @@ class CommentList extends Component {
                 <ul>
                     {commentItems}
                 </ul>
-                <NewCommentForm />
+                <NewCommentForm article_id={article_id}/>
             </div>
         )
     }

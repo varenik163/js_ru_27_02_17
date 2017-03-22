@@ -18,6 +18,7 @@ class ArticleList extends Component {
             />
         </li>)
 
+        console.log(articles)
         return (
             <CSSTransition component="ul"
                            transitionName="article-list"

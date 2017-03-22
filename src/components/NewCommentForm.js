@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import {addComment} from '../AC'
+import {connect} from 'react-redux'
 
 class NewCommentForm extends Component {
     static propTypes = {
@@ -24,6 +26,7 @@ class NewCommentForm extends Component {
             user: '',
             text: ''
         })
+        this.props.dispatchAddComment(this.props.article_id,this.state.user,this.state.text)
     }
 
     render() {
@@ -42,4 +45,6 @@ const validators = {
     user: (text) => text.length < 10
 }
 
-export default NewCommentForm
+export default connect(null, {
+    dispatchAddComment: addComment
+})(NewCommentForm)
