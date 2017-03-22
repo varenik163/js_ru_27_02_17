@@ -8,7 +8,7 @@ export default store => next => action => {
                 ...action,
                 payload: {
                     ...action.payload,
-                    id: Date.now()
+                    id: Date.now() // не уверен что это подходит
                 }
             })
             break;
