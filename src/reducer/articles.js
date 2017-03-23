@@ -1,21 +1,25 @@
 import {normalizedArticles} from '../fixtures'
 import {DELETE_ARTICLE, ADD_COMMENT} from '../constants'
+import {Record} from 'immutable'
+import {arrToMap} from './utils'
 
-export default (state = normalizedArticles, action) => {
+const ArticleModel = Record({
+    "id": null,
+    "date": null,
+    "title": null,
+    "text": null,
+    "comments": []
+})
+
+export default (state = arrToMap(normalizedArticles, ArticleModel), action) => {
     const { type, payload, randomId } = action
 
     switch (type) {
         case DELETE_ARTICLE:
-            return state.filter(article => article.id !== payload.id)
+            return state.delete(payload.id)
 
         case ADD_COMMENT:
-            return state.map(article => article.id !== payload.articleId
-                ? article
-                : {
-                    ...article,
-                    comments: article.comments.concat(randomId)
-                }
-            )
+            return state.updateIn([payload.articleId, 'comments'], (comments) => comments.concat(randomId))
 
     }
 
