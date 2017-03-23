@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 
-export const getArticles = state => state.articles
+export const getArticles = state => state.articles.entities
 export const getFilters = state => state.filters
 export const getComments = state => state.comments
 export const getId = (state, props) => props.id
