@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+import {connect} from 'react-redux'
 import ArticleList from './ArticleList/index'
 import Chart from './Chart'
 import Filters from './Filters/index'
 import Counter from './Counter'
+import {loadAllArticles} from '../AC'
 
 class App extends Component {
     static propTypes = {
@@ -10,6 +12,10 @@ class App extends Component {
 
     state = {
         text: ''
+    }
+
+    componentDidMount() {
+        this.props.loadAllArticles()
     }
 
     render() {
@@ -33,4 +39,4 @@ class App extends Component {
     }
 }
 
-export default App
+export default connect(null, { loadAllArticles })(App)

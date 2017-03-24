@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
 import CommentList from '../CommentList'
+import Loader from '../Loader'
 import CSSTransition from 'react-addons-css-transition-group'
 import {connect} from 'react-redux'
-import {deleteArticle} from '../../AC'
-import {selectArticle} from '../../AC/index'
+import {deleteArticle, loadArticleById} from '../../AC'
 import './style.css'
 
 class Article extends Component {
@@ -14,12 +14,17 @@ class Article extends Component {
      }
 
      */
+    componentWillReceiveProps({isOpen, article, loadArticleById}) {
+        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticleById(article.id)
+    }
+
     render() {
         const {article, isOpen, toggleOpen} = this.props
         const body = isOpen
             ? <section>
                 {article.text}
-                <CommentList comments={article.comments} ref={this.getCommentList}/>
+                {article.loading && <Loader />}
+                <CommentList article={article} ref={this.getCommentList}/>
             </section>
             : null
         return (
@@ -39,8 +44,8 @@ class Article extends Component {
 
     handleDelete = ev => {
         ev.preventDefault()
-        const {article, dispatchDeleteArticle, dispatchSelectArticle} = this.props
-        dispatchDeleteArticle(article.id)
+        const {article, deleteArticle} = this.props
+        deleteArticle(article.id)
     }
 
     getCommentList = ref => {
@@ -63,7 +68,4 @@ Article.propTypes = {
     toggleOpen: PropTypes.func
 }
 
-export default connect(null, {
-    dispatchDeleteArticle: deleteArticle,
-    dispatchSelectArticle: selectArticle
-})(Article)
+export default connect(null, { deleteArticle, loadArticleById })(Article)
