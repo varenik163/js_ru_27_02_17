@@ -6,11 +6,7 @@ import NewCommentForm from './NewCommentForm'
 class CommentList extends Component {
 
     static propTypes = {
-        comments: PropTypes.array
-    }
-
-    static defaultProps = {
-        comments: []
+        article: PropTypes.object.isRequired
     }
 
     componentDidUpdate() {
@@ -18,7 +14,7 @@ class CommentList extends Component {
     }
 
     render() {
-        const {isOpen, toggleOpen, article_id} = this.props
+        const {isOpen, toggleOpen} = this.props
 //        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
@@ -36,25 +32,25 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {comments, isOpen, article_id} = this.props
+        const {article, isOpen} = this.props
         if (!isOpen) return null
 
-        if (!comments.length) {
+        if (!article.comments || !article.comments.length) {
             return <div>
                 <h3>
                     No comments yet
                 </h3>
-                <NewCommentForm />
+                <NewCommentForm articleId={article.id} />
             </div>
         }
 
-        const commentItems = comments.map(id => <li key={id}><Comment id={id} /></li>)
+        const commentItems = article.comments.map(id => <li key={id}><Comment id={id} /></li>)
         return (
             <div>
                 <ul>
                     {commentItems}
                 </ul>
-                <NewCommentForm article_id={article_id}/>
+                <NewCommentForm articleId={article.id} />
             </div>
         )
     }

@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import {addComment} from '../AC'
 import {connect} from 'react-redux'
+import {addComment} from '../AC'
 
 class NewCommentForm extends Component {
     static propTypes = {
+        articleId: PropTypes.string.isRequired,
+        addComment: PropTypes.func.isRequired
     }
 
     state = {
@@ -22,11 +24,12 @@ class NewCommentForm extends Component {
 
     handleSubmit = ev => {
         ev.preventDefault()
+        const { articleId, addComment } = this.props
+        addComment(this.state, articleId)
         this.setState({
             user: '',
             text: ''
         })
-        this.props.dispatchAddComment(this.props.article_id,this.state.user,this.state.text)
     }
 
     render() {
@@ -45,6 +48,4 @@ const validators = {
     user: (text) => text.length < 10
 }
 
-export default connect(null, {
-    dispatchAddComment: addComment
-})(NewCommentForm)
+export default connect(null, {addComment})(NewCommentForm)

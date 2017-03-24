@@ -1,4 +1,6 @@
-import {INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, ADD_COMMENT} from '../constants'
+import {INCREMENT, DELETE_ARTICLE, CHANGE_DATE_RANGE, CHANGE_SELECTION, ADD_COMMENT,
+    LOAD_ALL_ARTICLES, LOAD_ARTICLE_BY_ID, START, SUCCESS, FAIL} from '../constants'
+import $ from 'jquery'
 
 export function increment() {
     const action = {
@@ -29,9 +31,39 @@ export function changeSelection(selected) {
         payload: { selected }
     }
 }
-export function addComment(article_id, user, text) {
+
+export function addComment(comment, articleId) {
     return {
         type: ADD_COMMENT,
-        payload: {article_id, user, text }
+        payload: { comment, articleId },
+        generateId: true
+    }
+}
+
+export function loadAllArticles() {
+    return {
+        type: LOAD_ALL_ARTICLES,
+        callAPI: '/api/article'
+    }
+}
+
+export function loadArticleById(id) {
+    return (dispatch) => {
+        dispatch({
+            type: LOAD_ARTICLE_BY_ID + START,
+            payload: { id }
+        })
+
+        setTimeout(() => {
+            $.get(`/api/article/${id}`)
+                .done(response => dispatch({
+                    type: LOAD_ARTICLE_BY_ID + SUCCESS,
+                    payload: { response, id }
+                }))
+                .fail(error => dispatch({
+                    type: LOAD_ARTICLE_BY_ID + FAIL,
+                    payload: { error, id }
+                }))
+        }, 1000)
     }
 }
