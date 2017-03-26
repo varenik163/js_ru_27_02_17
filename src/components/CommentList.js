@@ -3,6 +3,7 @@ import Comment from './Comment'
 import {connect} from 'react-redux'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
+import {loadArticleComments} from '../AC'
 
 class CommentList extends Component {
 
@@ -10,12 +11,18 @@ class CommentList extends Component {
         article: PropTypes.object.isRequired
     }
 
+    componentWillReceiveProps({isOpen, article, dispatchLoadArticleComments}) {
+        console.log('CommentList componentWillReceiveProps')
+        if (!this.props.isOpen && isOpen && !article.loading) dispatchLoadArticleComments(article.id)
+    }
+
     componentDidUpdate() {
         this.size = this.container.getBoundingClientRect()
     }
 
     render() {
-        const {comments, error, loading, toggleOpen, isOpen} = this.props
+        const { error, loading, toggleOpen, isOpen} = this.props
+        console.log(this.props)
         if (error) {
             return <h1>{error}</h1>
         }
@@ -69,7 +76,8 @@ const mapStateToProps = (state) => {
     return {
         comments: state.comments.entities.valueSeq().toArray(),//сделать  массив
         loading: state.comments.loading,
-        error: state.comments.error
+        error: state.comments.error,
+        dispatchLoadArticleComments: loadArticleComments
     }
 }
 

@@ -73,7 +73,9 @@ export function loadArticleById(id) {
 }
 
 export function loadArticleComments(id){
+    console.log('loadArticleComments',id)
     return (dispatch) => {
+        console.log('loadArticleComments','dispatch')
         dispatch({
             type: LOAD_ARTICLE_COMMENTS + START,
             payload: { id }

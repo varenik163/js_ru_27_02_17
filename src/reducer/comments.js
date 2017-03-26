@@ -17,6 +17,7 @@ const DefaultCommentsState = Record({
 
 export default (comments = new DefaultCommentsState(), action) => {
     const { type, payload, randomId,response } = action
+    console.log(action)
 
     switch (type) {
         case ADD_COMMENT:
@@ -30,15 +31,18 @@ export default (comments = new DefaultCommentsState(), action) => {
             })
 
         case LOAD_ARTICLE_COMMENTS + START:
-            return state.set('loading', true)
+            console.log(LOAD_ARTICLE_COMMENTS + START)
+            return comments.set('loading', true)
 
         case LOAD_ARTICLE_COMMENTS + SUCCESS:
-            return state
+            console.log(LOAD_ARTICLE_COMMENTS + SUCCESS)
+            return comments
                 .mergeIn(['entities'], arrToMap(response, CommentModel))
                 .set('loading', false)
 
         case LOAD_ARTICLE_COMMENTS + FAIL:
-            return state
+            console.log(LOAD_ARTICLE_COMMENTS + FAIL)
+            return comments
                 .set('error', error.statusText)
                 .set('loading', false)
     }
