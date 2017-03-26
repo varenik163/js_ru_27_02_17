@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
+import {connect} from 'react-redux'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 
@@ -14,7 +15,14 @@ class CommentList extends Component {
     }
 
     render() {
-        const {isOpen, toggleOpen} = this.props
+        const {comments, error, loading, toggleOpen, isOpen} = this.props
+        if (error) {
+            return <h1>{error}</h1>
+        }
+
+        if (loading) {
+            return <Loader />
+        }
 //        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
@@ -32,10 +40,10 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {article, isOpen} = this.props
+        const {article, isOpen, comments} = this.props
         if (!isOpen) return null
 
-        if (!article.comments || !article.comments.length) {
+        if (!comments || !comments.length) {
             return <div>
                 <h3>
                     No comments yet
@@ -44,7 +52,7 @@ class CommentList extends Component {
             </div>
         }
 
-        const commentItems = article.comments.map(id => <li key={id}><Comment id={id} /></li>)
+        const commentItems = comments.map(id => <li key={id}><Comment id={id} /></li>)
         return (
             <div>
                 <ul>
@@ -56,4 +64,13 @@ class CommentList extends Component {
     }
 }
 
-export default toggleOpen(CommentList)
+
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comments.entities.valueSeq().toArray(),//сделать  массив
+        loading: state.comments.loading,
+        error: state.comments.error
+    }
+}
+
+export default connect(mapStateToProps)(toggleOpen(CommentList))
