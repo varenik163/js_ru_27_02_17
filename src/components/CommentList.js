@@ -14,12 +14,9 @@ class CommentList extends Component {
 
     componentWillReceiveProps({isOpen, article, loadArticleComments}) {
         console.log('CommentList componentWillReceiveProps')
-        if (!this.props.isOpen && isOpen && !this.props.loading) loadArticleComments(article.id)
+        if (!this.props.isOpen && isOpen && !this.props.loading && !article.commentsLoaded) loadArticleComments(article.id)
     }
 
-    componentDidUpdate() {
-        //this.size = this.container.getBoundingClientRect()
-    }
 
     render() {
         const { error, loading, toggleOpen, isOpen} = this.props

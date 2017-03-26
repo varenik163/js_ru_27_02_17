@@ -21,10 +21,6 @@ export default (comments = new DefaultCommentsState(), action) => {
 
     switch (type) {
         case ADD_COMMENT:
-            /*return comments.set(randomId, new CommentModel({
-                id: randomId,
-                ...payload.comment
-            }))*/
             return comments.mergeIn(['entities'], arrToMap([{id: randomId, ...payload.comment}], CommentModel))
 
         case LOAD_ARTICLE_COMMENTS + START:
