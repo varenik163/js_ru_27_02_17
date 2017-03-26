@@ -53,6 +53,7 @@ export function loadAllArticles() {
 
 export function loadArticleById(id) {
     return (dispatch) => {
+        console.log('loadArticleById dispatch')
         dispatch({
             type: LOAD_ARTICLE_BY_ID + START,
             payload: { id }
@@ -73,16 +74,15 @@ export function loadArticleById(id) {
 }
 
 export function loadArticleComments(id){
-    console.log('loadArticleComments',id)
     return (dispatch) => {
-        console.log('loadArticleComments','dispatch')
+        console.log('loadArticleComments dispatch')
         dispatch({
             type: LOAD_ARTICLE_COMMENTS + START,
             payload: { id }
         })
 
         setTimeout(() => {
-            $.get(`/api/comment/${id}`)
+            $.get(`/api/comment?article=${id}`)
                 .done(response => dispatch({
                     type: LOAD_ARTICLE_COMMENTS + SUCCESS,
                     payload: { response, id }

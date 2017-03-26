@@ -21,6 +21,7 @@ Comment.propTypes = {
 const mapStateToProps = () => {
     const findCommentSelector = createFindCommentSelector()
     return (state, props) => {
+        console.log(state, props)
         return {
             comment: findCommentSelector(state, props)
         }

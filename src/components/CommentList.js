@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 import {loadArticleComments} from '../AC'
+import Loader from './Loader'
 
 class CommentList extends Component {
 
@@ -11,13 +12,13 @@ class CommentList extends Component {
         article: PropTypes.object.isRequired
     }
 
-    componentWillReceiveProps({isOpen, article, dispatchLoadArticleComments}) {
+    componentWillReceiveProps({isOpen, article, loadArticleComments}) {
         console.log('CommentList componentWillReceiveProps')
-        if (!this.props.isOpen && isOpen && !article.loading) dispatchLoadArticleComments(article.id)
+        if (!this.props.isOpen && isOpen && !this.props.loading) loadArticleComments(article.id)
     }
 
     componentDidUpdate() {
-        this.size = this.container.getBoundingClientRect()
+        //this.size = this.container.getBoundingClientRect()
     }
 
     render() {
@@ -47,10 +48,10 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const {article, isOpen, comments} = this.props
+        const {article, isOpen} = this.props
         if (!isOpen) return null
 
-        if (!comments || !comments.length) {
+        if (!article.comments || !article.comments.length) {
             return <div>
                 <h3>
                     No comments yet
@@ -59,7 +60,7 @@ class CommentList extends Component {
             </div>
         }
 
-        const commentItems = comments.map(id => <li key={id}><Comment id={id} /></li>)
+        const commentItems = article.comments.map(id => <li key={id}><Comment id={id} /></li>)
         return (
             <div>
                 <ul>
@@ -74,11 +75,9 @@ class CommentList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        comments: state.comments.entities.valueSeq().toArray(),//сделать  массив
         loading: state.comments.loading,
         error: state.comments.error,
-        dispatchLoadArticleComments: loadArticleComments
     }
 }
 
-export default connect(mapStateToProps)(toggleOpen(CommentList))
+export default connect(mapStateToProps, {loadArticleComments})(toggleOpen(CommentList))

@@ -16,7 +16,7 @@ const DefaultCommentsState = Record({
 })
 
 export default (comments = new DefaultCommentsState(), action) => {
-    const { type, payload, randomId,response } = action
+    const { type, payload, randomId } = action
     console.log(action)
 
     switch (type) {
@@ -25,10 +25,7 @@ export default (comments = new DefaultCommentsState(), action) => {
                 id: randomId,
                 ...payload.comment
             }))*/
-            return comments.mergeIn(['entities'], {
-                id: randomId,
-                ...payload.comment
-            })
+            return comments.mergeIn(['entities'], arrToMap([{id: randomId, ...payload.comment}], CommentModel))
 
         case LOAD_ARTICLE_COMMENTS + START:
             console.log(LOAD_ARTICLE_COMMENTS + START)
@@ -37,13 +34,13 @@ export default (comments = new DefaultCommentsState(), action) => {
         case LOAD_ARTICLE_COMMENTS + SUCCESS:
             console.log(LOAD_ARTICLE_COMMENTS + SUCCESS)
             return comments
-                .mergeIn(['entities'], arrToMap(response, CommentModel))
+                .mergeIn(['entities'], arrToMap(payload.response, CommentModel))
                 .set('loading', false)
 
         case LOAD_ARTICLE_COMMENTS + FAIL:
             console.log(LOAD_ARTICLE_COMMENTS + FAIL)
             return comments
-                .set('error', error.statusText)
+                .set('error', payload.error.statusText)
                 .set('loading', false)
     }
 
