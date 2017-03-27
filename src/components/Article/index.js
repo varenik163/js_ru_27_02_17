@@ -14,8 +14,8 @@ class Article extends Component {
      }
 
      */
-    componentWillReceiveProps({isOpen, article, loadArticleById}) {
-        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticleById(article.id)
+    componentWillReceiveProps({article, loadArticleById}) {
+        if (!article.text && !article.loading) loadArticleById(article.id)
     }
 
     render() {
