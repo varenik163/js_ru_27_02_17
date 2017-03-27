@@ -5,6 +5,7 @@ import ArticlesPage from './ArticlesPage'
 import NotFound from './NotFound'
 import Filters from './Filters/index'
 import Counter from './Counter'
+import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 
 class App extends Component {
@@ -24,6 +25,11 @@ class App extends Component {
             <Router>
                 <div>
                     Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    <Menu>
+                        <MenuItem path="/counter"/>
+                        <MenuItem path="/filters"/>
+                        <MenuItem path="/articles"/>
+                    </Menu>
                     <Switch>
                         <Route path="/counter" component={Counter} exact />
                         <Route path="/filters" component={Filters} />
