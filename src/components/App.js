@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import {connect} from 'react-redux'
-import ArticleList from './ArticleList/index'
+import ArticlesPage from './ArticlesPage'
 import NotFound from './NotFound'
 import Filters from './Filters/index'
 import Counter from './Counter'
@@ -27,7 +27,7 @@ class App extends Component {
                     <Switch>
                         <Route path="/counter" component={Counter} exact />
                         <Route path="/filters" component={Filters} />
-                        <Route path="/articles" component={ArticleList} />
+                        <Route path="/articles" component={ArticlesPage} />
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </div>
