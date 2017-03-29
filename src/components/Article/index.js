@@ -14,12 +14,14 @@ class Article extends Component {
      }
 
      */
-    componentWillReceiveProps({isOpen, article, loadArticleById}) {
-        if (!this.props.isOpen && isOpen && !article.text && !article.loading) loadArticleById(article.id)
+    componentWillReceiveProps({article, loadArticleById}) {
+        if (!article.text && !article.loading) loadArticleById(article.id)
     }
 
     render() {
         const {article, isOpen, toggleOpen} = this.props
+        if (!article) return null
+
         const body = isOpen
             ? <section>
                 {article.text}
@@ -63,9 +65,15 @@ Article.propTypes = {
         title: PropTypes.string.isRequired,
         text: PropTypes.string,
         comments: PropTypes.array
-    }).isRequired,
+    }),
     isOpen: PropTypes.bool,
     toggleOpen: PropTypes.func
 }
 
-export default connect(null, { deleteArticle, loadArticleById })(Article)
+function mapStateToProps(state, {match}) {
+    return {
+        article: state.articles.getIn(['entities', match.params.id])
+    }
+}
+
+export default connect(mapStateToProps, { deleteArticle, loadArticleById })(Article)

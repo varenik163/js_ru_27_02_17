@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react'
+import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import {connect} from 'react-redux'
-import ArticleList from './ArticleList/index'
-import Chart from './Chart'
+import ArticlesPage from './ArticlesPage'
+import NotFound from './NotFound'
 import Filters from './Filters/index'
 import Counter from './Counter'
+import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 
 class App extends Component {
@@ -20,13 +22,22 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <Counter />
-                Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
-                <Filters articles={[]}/>
-                <ArticleList />
-                <Chart />
-            </div>
+            <Router>
+                <div>
+                    Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    <Menu>
+                        <MenuItem path="/counter"/>
+                        <MenuItem path="/filters"/>
+                        <MenuItem path="/articles"/>
+                    </Menu>
+                    <Switch>
+                        <Route path="/counter" component={Counter} exact />
+                        <Route path="/filters" component={Filters} />
+                        <Route path="/articles" component={ArticlesPage} />
+                        <Route path="*" component={NotFound} />
+                    </Switch>
+                </div>
+            </Router>
         )
     }
 
