@@ -73,6 +73,7 @@ Article.propTypes = {
 
 function mapStateToProps(state, props) {
     return {
+        //ок, но название странное, так и не придумал что оно могло значить)
         article: foundedArticleSelector(state,props)//state.articles.getIn(['entities', match.params.id])
     }
 }
