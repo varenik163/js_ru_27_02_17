@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {HashRouter as Router, Route, Switch} from 'react-router-dom'
+import {HashRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
 import {connect} from 'react-redux'
 import ArticlesPage from './ArticlesPage'
 import NotFound from './NotFound'
@@ -30,13 +30,14 @@ class App extends Component {
                         <MenuItem path="/counter"/>
                         <MenuItem path="/filters"/>
                         <MenuItem path="/articles"/>
-                        <MenuItem path="/comments/1"/>
+                        <MenuItem path="/comments"/>
                     </Menu>
                     <Switch>
                         <Route path="/counter" component={Counter} exact />
                         <Route path="/filters" component={Filters} />
                         <Route path="/articles" component={ArticlesPage} />
                         <Route path="/comments/:page" component={CommentsPage} />
+                        <Redirect from="/comments" to="/comments/1"/>
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </div>
