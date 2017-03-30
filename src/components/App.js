@@ -15,8 +15,18 @@ class App extends Component {
     static propTypes = {
     };
 
+    static childContextTypes = {
+        user: PropTypes.string
+    }
+
     state = {
         text: ''
+    }
+
+    getChildContext() {
+        return {
+            user: this.state.text
+        }
     }
 
     componentDidMount() {

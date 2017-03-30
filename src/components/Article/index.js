@@ -27,12 +27,18 @@ class Article extends Component {
         if (!article || (!article.text && !article.loading)) loadArticleById(match.params.id)
     }
 
+    static contextTypes = {
+        user: PropTypes.string
+    }
+
     render() {
+        console.log('---', 4)
         const {article, isOpen, toggleOpen} = this.props
         if (!article) return null
 
         const body = isOpen
             ? <section>
+                <p>User: {this.context.user}</p>
                 {article.text}
                 {article.loading && <Loader />}
                 <CommentList article={article} ref={this.getCommentList}/>

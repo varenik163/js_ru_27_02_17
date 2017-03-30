@@ -12,6 +12,10 @@ class CommentList extends Component {
         article: PropTypes.object.isRequired
     }
 
+    static contextTypes = {
+        user: PropTypes.string
+    }
+
     componentWillReceiveProps({isOpen, article, checkAndLoadArticleComments}) {
         if (isOpen && !this.props.isOpen) checkAndLoadArticleComments(article.id)
     }
@@ -21,6 +25,7 @@ class CommentList extends Component {
     }
 
     render() {
+        console.log('---', 5)
         const {isOpen, toggleOpen} = this.props
 //        console.log('---', this.size)
         return (
@@ -55,6 +60,7 @@ class CommentList extends Component {
         const commentItems = article.comments.map(id => <li key={id}><Comment id={id} /></li>)
         return (
             <div>
+                user: {this.context.user}
                 <ul>
                     {commentItems}
                 </ul>
@@ -66,4 +72,4 @@ class CommentList extends Component {
 
 export default connect((state, props) => ({
     loaded: state.articles.getIn(['entities', props.article.id, 'commentsLoaded'])
-}), {checkAndLoadArticleComments})(toggleOpen(CommentList))
+}), {checkAndLoadArticleComments}, null, {pure: false})(toggleOpen(CommentList))
