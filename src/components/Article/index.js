@@ -32,7 +32,6 @@ class Article extends Component {
     }
 
     render() {
-        console.log('---', 4)
         const {article, isOpen, toggleOpen} = this.props
         if (!article) return null
 

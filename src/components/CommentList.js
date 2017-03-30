@@ -25,7 +25,6 @@ class CommentList extends Component {
     }
 
     render() {
-        console.log('---', 5)
         const {isOpen, toggleOpen} = this.props
 //        console.log('---', this.size)
         return (
