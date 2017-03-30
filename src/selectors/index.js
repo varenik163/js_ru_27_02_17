@@ -13,6 +13,10 @@ export const createFindCommentSelector = () => createSelector(getComments, getId
     }
 )
 
+export const articleByIdSelector = createSelector(getArticles, getId, (entities, id) =>
+    entities.getIn(['entities', match.params.id])
+)
+
 function getFilteredArticles(articles, filters) {
     const { selected, dateRange: { from, to } } = filters
 
