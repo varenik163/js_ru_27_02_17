@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
+import {ConnectedRouter} from 'react-router-redux'
 import {connect} from 'react-redux'
 import ArticlesPage from './ArticlesPage'
 import NotFound from './NotFound'
@@ -8,6 +9,7 @@ import Counter from './Counter'
 import CommentsPage from './CommentsPage'
 import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
+import history from '../history'
 
 class App extends Component {
     static propTypes = {
@@ -23,7 +25,7 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
+            <ConnectedRouter history={history}>
                 <div>
                     Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                     <Menu>
@@ -41,7 +43,7 @@ class App extends Component {
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </div>
-            </Router>
+            </ConnectedRouter>
         )
     }
 
