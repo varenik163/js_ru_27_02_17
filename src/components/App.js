@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import {HashRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
 import {connect} from 'react-redux'
 import ArticlesPage from './ArticlesPage'
 import NotFound from './NotFound'
