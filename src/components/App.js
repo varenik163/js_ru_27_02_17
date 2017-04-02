@@ -83,4 +83,6 @@ class App extends Component {
     }
 }
 
+//и тут тоже получаю underfine в location
+
 export default connect((state, props) => { return {location : props.match.location} }, { loadAllArticles })(Translator(App))

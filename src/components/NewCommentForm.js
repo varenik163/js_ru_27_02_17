@@ -8,6 +8,11 @@ class NewCommentForm extends Component {
         addComment: PropTypes.func.isRequired
     }
 
+    static childContextTypes = {
+        user: PropTypes.string,
+        translate: PropTypes.object
+    }
+
     state = {
         text: '',
         user: ''
