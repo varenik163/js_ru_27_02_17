@@ -5,7 +5,7 @@ import Loader from '../Loader'
 import CSSTransition from 'react-addons-css-transition-group'
 import {connect} from 'react-redux'
 import {deleteArticle, loadArticleById} from '../../AC'
-import {foundedArticleSelector} from '../../selectors'
+import {articleByIdSelector} from '../../selectors'
 import './style.css'
 
 class Article extends Component {
@@ -15,8 +15,20 @@ class Article extends Component {
      }
 
      */
-    componentWillReceiveProps({article, loadArticleById}) {
-        if (!article.text && !article.loading) loadArticleById(article.id)
+    componentWillMount() {
+        this.checkAndLoad(this.props)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.checkAndLoad(nextProps)
+    }
+
+    checkAndLoad({article, loadArticleById, match}) {
+        if (!article || (!article.text && !article.loading)) loadArticleById(match.params.id)
+    }
+
+    static contextTypes = {
+        user: PropTypes.string
     }
 
     render() {
@@ -25,6 +37,7 @@ class Article extends Component {
 
         const body = isOpen
             ? <section>
+                <p>User: {this.context.user}</p>
                 {article.text}
                 {article.loading && <Loader />}
                 <CommentList article={article} ref={this.getCommentList}/>
@@ -63,7 +76,7 @@ class Article extends Component {
 
 Article.propTypes = {
     article: PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         text: PropTypes.string,
         comments: PropTypes.array
     }),
@@ -71,10 +84,9 @@ Article.propTypes = {
     toggleOpen: PropTypes.func
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state, {match}) {
     return {
-        //ок, но название странное, так и не придумал что оно могло значить)
-        article: foundedArticleSelector(state,props)//state.articles.getIn(['entities', match.params.id])
+        article: articleByIdSelector(state, match.params)
     }
 }
 
