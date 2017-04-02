@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom
 import {ConnectedRouter} from 'react-router-redux'
 import {connect} from 'react-redux'
 import ArticlesPage from './ArticlesPage'
+import Translator from '../decorators/Translator'
 import NotFound from './NotFound'
 import Filters from './Filters/index'
 import Counter from './Counter'
@@ -10,13 +11,16 @@ import CommentsPage from './CommentsPage'
 import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 import history from '../history'
+import dictionary from '../dictionary'
 
 class App extends Component {
     static propTypes = {
+        //location: PropTypes.string
     };
 
     static childContextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        translate: PropTypes.object
     }
 
     state = {
@@ -25,7 +29,8 @@ class App extends Component {
 
     getChildContext() {
         return {
-            user: this.state.text
+            user: this.state.text,
+            translate: dictionary[this.props.location]
         }
     }
 
@@ -34,9 +39,11 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.props) // не пойму почему здесь в пропсах нет match
         return (
             <ConnectedRouter history={history}>
                 <div>
+                    {this.renderLang}
                     Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                     <Menu>
                         <MenuItem path="/counter"/>
@@ -57,6 +64,16 @@ class App extends Component {
         )
     }
 
+    renderLang() {
+        const lang = location === 'ru' ? 'en' : 'ru';
+        const { location } = this.props;
+        return (
+            <div>
+                <NavLink to={`/${lang}`} activeClassName="active">{dictionary[location]['switchLanguege']}</NavLink>
+            </div>
+        )
+    }
+
     handleTextChange = ev => {
         if (ev.target.value.length > 10) return
 
@@ -66,4 +83,4 @@ class App extends Component {
     }
 }
 
-export default connect(null, { loadAllArticles })(App)
+export default connect((state, props) => { return {location : props.match.location} }, { loadAllArticles })(Translator(App))
