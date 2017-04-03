@@ -5,6 +5,7 @@ import Comment from './Comment'
 import toggleOpen from '../decorators/toggleOpen'
 import NewCommentForm from './NewCommentForm'
 import Loader from './Loader'
+import LocalizedText from './LocalizedText'
 
 class CommentList extends Component {
 
@@ -29,7 +30,8 @@ class CommentList extends Component {
 //        console.log('---', this.size)
         return (
             <div ref={this.getContainerRef}>
-                <a href="#" onClick={toggleOpen}>{isOpen ? 'hide' : 'show'} comments</a>
+                <a href="#" onClick={toggleOpen}>
+                    <LocalizedText text={`${isOpen ? 'hide' : 'show'} comments`}/></a>
                 {this.getBody()}
             </div>
         )
@@ -50,7 +52,7 @@ class CommentList extends Component {
         if (!article.comments || !article.comments.length) {
             return <div>
                 <h3>
-                    No comments yet
+                    <LocalizedText text="No comments yet"/>
                 </h3>
                 <NewCommentForm articleId={article.id} />
             </div>
