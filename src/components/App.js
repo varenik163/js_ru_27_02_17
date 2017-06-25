@@ -10,22 +10,28 @@ import CommentsPage from './CommentsPage'
 import Menu, {MenuItem} from './Menu/index'
 import {loadAllArticles} from '../AC'
 import history from '../history'
+import Switcher from './Switcher'
+import dictionaries from '../dictionaries'
+import LocalizedText from './LocalizedText'
 
 class App extends Component {
     static propTypes = {
     };
 
     static childContextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        dictionary: PropTypes.object
     }
 
     state = {
-        text: ''
+        text: '',
+        language: 'en'
     }
 
     getChildContext() {
         return {
-            user: this.state.text
+            user: this.state.text,
+            dictionary: dictionaries[this.state.language]
         }
     }
 
@@ -37,7 +43,8 @@ class App extends Component {
         return (
             <ConnectedRouter history={history}>
                 <div>
-                    Enter your name: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
+                    <Switcher items = {['ru', 'en']} onChange={this.changeLang} active = {this.state.language}/>
+                    <LocalizedText text="Enter your name"/>: <input type="text" value={this.state.text} onChange={this.handleTextChange}/>
                     <Menu>
                         <MenuItem path="/counter"/>
                         <MenuItem path="/filters"/>
@@ -64,6 +71,8 @@ class App extends Component {
             text: ev.target.value
         })
     }
+
+    changeLang = (language) => this.setState({ language })
 }
 
 export default connect(null, { loadAllArticles })(App)
